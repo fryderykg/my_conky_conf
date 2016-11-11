@@ -1,0 +1,147 @@
+# check http://conky.sourceforge.net/config_settings.html for the list of settings
+# Check http://conky.sourceforge.net/variables.html for the list of variables
+
+background yes
+
+font 7x13
+# Use Xft?
+use_xft yes
+xftfont Bitstream Vera Sans Mono:size=9
+xftalpha 0.8
+override_utf8_locale yes
+short_units
+
+update_interval 1.0
+total_run_times 0
+
+own_window yes
+own_window_type normal
+own_window_transparent no
+own_window_class Conky
+own_window_argb_visual yes
+own_window_colour 000000
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+
+double_buffer yes
+minimum_size 320 800
+maximum_width 1000
+max_text_width 0
+
+draw_shades yes
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+stippled_borders 5
+border_inner_margin 0
+border_outer_margin 0
+border_width 1
+
+default_color white
+default_shade_color black
+default_outline_color black
+color0 PaleGreen
+color1 DarkSeaGreen
+color2 SeaGreen
+color3 GreenYellow
+color4 red
+color5 white
+color6 DarkOliveGreen3
+color7 DarkOliveGreen2
+color8 white
+color9 ForestGreen
+default_bar_size 115 10
+
+alignment top_right
+gap_x 0
+gap_y 0
+
+no_buffers yes
+uppercase no
+cpu_avg_samples 1
+net_avg_samples 1
+use_spacer none
+
+top_name_width 18
+top_cpu_separate false
+
+#lua_load /etc/conky/conky.lua
+#lua_startup_hook init
+
+own_window_argb_value 102
+TEXT
+${if_running plasma-desktop}${voffset 35}${endif}${color}${time %a, %d %b %Y, %H:%M:%S} ${goto 190}${color0}Uptime:${color DarkOrange1} ${uptime}
+${color2}${stippled_hr}
+${goto 5}${color0}Linux Kernel: ${color8}${kernel} on ${machine}
+${goto 5}${color0}CPU1: ${color}${execi 10 sensors | grep 'Core 0' | awk {'print $3'}} ${goto 130}${color0}CPU2: ${color}${execi 10 sensors | grep 'Core 1' | awk {'print $3'}}
+${color2}${stippled_hr}
+${goto 5}${color0}CPU1:${goto 60}${color}${freq 1}${goto 90}(MHz)${alignr 30}${if_match ${cpu cpu1} > 80}${color4}${else}${if_match ${cpu cpu1} > 50}${color yellow1}${else}${color}${endif}${endif}${cpu cpu1}%${alignr 5}${color9}${cpubar cpu1 10,120}
+${goto 5}${color0}CPU2:${goto 60}${color}${freq 2}${goto 90}(MHz)${alignr 30}${if_match ${cpu cpu2} > 80}${color4}${else}${if_match ${cpu cpu2} > 50}${color yellow1}${else}${color}${endif}${endif}${cpu cpu2}%${alignr 5}${color9}${cpubar cpu2 10,120}
+${goto 5}${color0}CPU3:${goto 60}${color}${freq 3}${goto 90}(MHz)${alignr 30}${if_match ${cpu cpu3} > 80}${color4}${else}${if_match ${cpu cpu3} > 50}${color yellow1}${else}${color}${endif}${endif}${cpu cpu3}%${alignr 5}${color9}${cpubar cpu3 10,120}
+${goto 5}${color0}CPU4:${goto 60}${color}${freq 4}${goto 90}(MHz)${alignr 30}${if_match ${cpu cpu4} > 80}${color4}${else}${if_match ${cpu cpu4} > 50}${color yellow1}${else}${color}${endif}${endif}${cpu cpu4}%${alignr 5}${color9}${cpubar cpu4 10,120}
+${goto 5}${color9}${cpugraph 3dba19 ff0000 85 -t}
+#
+#${if_match ${cpu cpu0} > 80}${color4}${else}${if_match ${cpu cpu0} > 50}${color yellow1}${else}${color}${endif}${endif}
+#
+#Memmory
+${voffset 3}${color1}Memmory ${color2}${hr}
+${color0}${alignr 200}all${alignr 160}used
+${goto 5}${color0}RAM:${offset +4}${goto 60}${color}${memmax}${alignr 20}${if_match ${memperc} > 80}${color4}${else}${if_match ${memperc} > 50}${color yellow1}${else}${color}${endif}${endif}${mem}(${memperc}%)${alignr 5}${color9}${membar 10,120}
+${goto 5}${color0}SWAP:${offset +4}${goto 60}${color}${swapmax}${alignr 20}${if_match ${swapperc} > 80}${color4}${else}${if_match ${swapperc} > 50}${color yellow1}${else}${color}${endif}${endif}${swap}(${swapperc}%)${alignr 5}${color9}${swapbar 10,120}
+#Nvidia Gfx Card
+#${voffset 3}${color1}Nvidia Gfx card ${color2}${hr}
+#${color0}GPU Temp:${color8}${goto 110}${execi 60 nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader}°C${goto 165}${color0}Mem used: ${color8}${alignr}${execi 60 nvidia-settings -q [gpu:0]/UsedDedicatedGPUMemory -t}/${execi 6000 nvidia-settings -q [gpu:0]/TotalDedicatedGPUMemory -t} MB
+#${color0}GPU clock:${color8}${goto 110}${nvidia gpufreq} Mhz${goto 165}${color0}Mem clock:${color8}${alignr}${execi 60 nvidia-settings -q all| grep -m 1 GPUCurrentProcessorClockFreqs | awk '{print $4}' | sed 's/.$//'} MHz
+
+#NETWORK
+${if_up wlp4s1}${voffset 3}${color1}Network ${color}($nodename) ${color2}${hr}
+${goto 5}${color0}WiFi:${goto 80}${color}${wireless_essid wlp4s1}${color0}${goto 150}Bitrate:${goto 230}${color}${wireless_bitrate wlp4s1}
+${goto 5}${color0}Strengh:${goto 80}${color}${wireless_link_qual_perc wlp4s1}%${alignr 5}${color9}${wireless_link_bar 10, 165 wlp4s1}
+
+${goto 5}${color0}UP:${color yellow1} ${goto 50}${upspeed wlp4s1}/${totalup wlp4s1}${color0}${goto 170}Down:${alignr 20}${color OrangeRed1} ${downspeed wlp4s1}/${totaldown wlp4s1}
+${goto 5}${color9}${upspeedgraph wlp4s1 24,150 000000 91ec31}  ${color9}${downspeedgraph wlp4s1 24,150 000000 ec3131} 
+${goto 5}${color0}Local IP: ${color}${addr wlp4s1}${alignr}${color0}TCP Connections: ${color}${tcp_portmon 1 65535 count}
+${goto 5}${color0}Public IP: ${color}${execi 3600 wget -q -O - checkip.dyndns.org | sed -e 's/[^[:digit:]\|.]//g'}${alignr}${color0}
+${goto 5}${if_gw}${color0}gateway: ${color}${gw_ip}$endif${alignr}${color0}dns: ${color}${nameserver}${endif}
+
+#DISK
+${voffset 3}${color1}File Systems ${color2}${hr}
+# ROOT
+${if_mounted /}${goto 5}${color3}/${goto 120}[${fs_size /}]${goto 80}${color}${endif}
+${goto 5}${fs_bar 10,170 /}${goto 180}${if_match ${fs_used_perc /} > 80}${color4}${else}${if_match ${fs_used_perc /} > 50}${color yellow1}${else}${color}${endif}${endif}${fs_used_perc /}% ${alignr 10 }${color}Free: ${fs_free /}
+# HOME
+${if_mounted /home}${goto 5}${color3}/home${goto 120}[${fs_size /home}]${goto 80}${alignr}${color}${goto 200}${alignr}${endif}
+${goto 5}${fs_bar 10,170 /home}${goto 180}${if_match ${fs_used_perc /home} > 80}${color4}${else}${if_match ${fs_used_perc /home} > 50}${color yellow1}${else}${color}${endif}${endif}${fs_used_perc /home}% ${alignr 10 }${color}Free: ${fs_free /home}
+# DODATKI
+${if_mounted /media/frycek/dodatki}${goto 5}${color3}./dodatki${goto 120}[${fs_size /media/frycek/dodatki}]${goto 80}${alignr}${color}${goto 200}${alignr}${endif}
+${if_mounted /media/frycek/dodatki}${goto 5}${fs_bar 10,170 /media/frycek/dodatki}${goto 180}${if_match ${fs_used_perc /media/frycek/dodatki} > 80}${color4}${else}${if_match ${fs_used_perc /media/frycek/dodatki} > 50}${color yellow1}${else}${color}${endif}${endif}${fs_used_perc /media/frycek/dodatki}% ${alignr 10 }${color}Free: ${fs_free /media/frycek/dodatki}${else}${alignr}N/A${endif}
+# BACKUP
+${if_mounted /media/frycek/backup}${goto 5}${color3}./backup${goto 120}[${fs_size /media/frycek/backup}]${goto 80}${alignr}${color}${goto 200}${alignr}${endif}
+${if_mounted /media/frycek/backup}${goto 5}${fs_bar 10,170 /media/frycek/backup}${goto 180}${if_match ${fs_used_perc /media/frycek/backup} > 80}${color4}${else}${if_match ${fs_used_perc /media/frycek/backup} > 50}${color yellow1}${else}${color}${endif}${endif}${fs_used_perc /media/frycek/backup}% ${alignr 10 }${color}Free: ${fs_free /media/frycek/backup}${else}${alignr}N/A${endif}
+#
+#
+#
+#DISK I/O
+${goto 5}${voffset 3}${color1}Disk IO ${color2}${hr}
+${goto 5}${color0}dev${goto 60}write${goto 130}read${goto 200}temp
+${goto 5}${color3}sda${goto 60}${color white}${diskio_write sda}${goto 130}${color8}${diskio_read sda}${goto 200}${color white}${execi 120 hddtemp /dev/sda | awk {'print $4'}}${alignr 5}${color9}${diskiograph sda 12,80 3dba19 aecf4c 0 -t -l}
+${goto 5}${color3}sdb${goto 60}${color white}${diskio_write sdb}${goto 130}${color8}${diskio_read sdb}${goto 200}${color white}${execi 480 hddtemp --debug /dev/sdb |grep 194 | awk {'print $3'}}°C${alignr 5}${color9}${diskiograph sdb 12,80 3dba19 aecf4c 0 -t -l}
+${goto 5}${color3}sdc${goto 60}${color white}${diskio_write sdc}${goto 130}${color8}${diskio_read sdc}${goto 200}${color white}${execi 120 hddtemp --debug /dev/sdc |grep 194 | awk {'print $3'}}°C${alignr 5}${color9}${diskiograph sdc 12,80 3dba19 aecf4c 0 -t -l}
+
+#Processes
+${goto 5}${voffset 3}${color1}Processes:${color} ${processes}  ${color1}Running:${color red1} ${running_processes} ${color2}${hr 1}
+${alignc}${color0}(top 5 sorted by CPU usage)
+${goto 5}${color0}NAME${alignr 110}PID${alignr 60}CPU%${alignr 20}MEM%
+${goto 5}${top name 1}${alignr 80}${top pid 1}${alignr 45}${top cpu 1}${alignr 20}${top mem 1}
+${goto 5}${top name 2}${alignr 80}${top pid 2}${alignr 45}${top cpu 2}${alignr 20}${top mem 2}
+${goto 5}${top name 3}${alignr 80}${top pid 3}${alignr 45}${top cpu 3}${alignr 20}${top mem 3}
+${goto 5}${top name 4}${alignr 80}${top pid 4}${alignr 45}${top cpu 4}${alignr 20}${top mem 4}
+${goto 5}${top name 5}${alignr 80}${top pid 5}${alignr 45}${top cpu 5}${alignr 20}${top mem 5}
+${alignc}${color0}(top 5 sorted by MEM usage)
+${goto 5}${color0}NAME${alignr 110}PID${alignr 60}CPU%${alignr 20}MEM%
+${goto 5}${top_mem name 1}${alignr 80}${top_mem pid 1}${alignr 45}${top_mem cpu 1}${alignr 20}${top_mem mem 1}
+${goto 5}${top_mem name 2}${alignr 80}${top_mem pid 2}${alignr 45}${top_mem cpu 2}${alignr 20}${top_mem mem 2}
+${goto 5}${top_mem name 3}${alignr 80}${top_mem pid 3}${alignr 45}${top_mem cpu 3}${alignr 20}${top_mem mem 3}
+${goto 5}${top_mem name 4}${alignr 80}${top_mem pid 4}${alignr 45}${top_mem cpu 4}${alignr 20}${top_mem mem 4}
+${goto 5}${top_mem name 5}${alignr 80}${top_mem pid 5}${alignr 45}${top_mem cpu 5}${alignr 20}${top_mem mem 5}
+#
+${voffset -3}${color2}${hr 1}
