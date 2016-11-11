@@ -8,3 +8,6 @@ To install:
 $ sudo apt-get install conky
 
 or directly form GitHub
+
+
+![alt tag](https://github.com/fryderykg/my_conky_conf/blob/master/conky.png)
