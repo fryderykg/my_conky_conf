@@ -9,5 +9,6 @@ $ sudo apt-get install conky
 
 or directly form GitHub
 
+My configuration looks like:
 
 ![alt tag](https://github.com/fryderykg/my_conky_conf/blob/master/conky.png)
